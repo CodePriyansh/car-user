@@ -10,7 +10,7 @@ interface ClipSpinnerProps {
 const ClipSpinner: React.FC<ClipSpinnerProps> = ({ loading }) => {
   return (
     <div className="flex items-center justify-center h-screen">
-      <ClipLoader color={'#EF6E0B'} loading={loading} size={35} seco />
+      <ClipLoader color={'#EF6E0B'} loading={loading} size={35} />
     </div>
   );
 };

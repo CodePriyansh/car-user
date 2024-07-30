@@ -55,10 +55,10 @@ const CarApi = ({ selectedOptions, initial, setCars }) => {
 
   const ApplyFilterApiCall = async () => {
     try {
-      const response = await instance.post("/api/cars/all", payload, {
+      const response = await instance.post("/api/cars/user/all", payload, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
       });
       setCars(response?.data?.data);

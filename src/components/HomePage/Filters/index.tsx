@@ -72,16 +72,16 @@ function Filters({ setCars, setCarNotFoundtext }) {
     "Van",
   ];
 
-  const colors = [
-    "black",
-    "white",
-    "grey",
-    "dark blue",
-    "brown",
-    "silver",
-    "red",
-    "marron",
-    "yellow",
+  const colors =  [
+    "Red",
+    "Blue",
+    "Black",
+    "White",
+    "Silver",
+    "Gray",
+    "Green",
+    "Yellow",
+    "Orange"
   ];
 
   const [selectedOptions, setSelectedOptions] = useState({

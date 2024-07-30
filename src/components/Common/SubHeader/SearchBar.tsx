@@ -3,13 +3,9 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import instance from "@/network/axios";
-import Cookies from "universal-cookie";
-import { toast } from "react-toastify";
 
 function SearchBar({ setCars, setCarNotFoundtext }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const cookies = new Cookies();
-  let token = cookies.get("authToken");
 
   const handleSearch = (e) => {
     const key = e.target.value.toLowerCase();
@@ -25,14 +21,13 @@ function SearchBar({ setCars, setCarNotFoundtext }) {
   const apiCallForSearch = async (searchTerm: string) => {
     try {
       const response = await instance.post(
-        "/api/cars/all",
+        "/api/cars/user/all",
         {
           searchKey: searchTerm,
         },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
           },
         }
       );

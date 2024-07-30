@@ -35,6 +35,7 @@ export default function SubHeader({
 
   const handleDialogClose = () => {
     setDialogOpen(false);
+    setCarNotFoundtext("There Is No Car Added")
     setActiveMidFilter("car");
   };
 
@@ -120,25 +121,7 @@ export default function SubHeader({
           )}
           <CarApi selectedOptions={null} initial={true} setCars={setCars} />
         </Button>
-        <Button
-          otherStyles={styles.fill_btn}
-          onclick={() => router.push("/addcar")}
-        >
-          <Image
-            src={Images.whitePlus}
-            alt="img"
-            className="w-[18px] h-[18px]"
-          />
-          Add car
-        </Button>
-        <Button otherStyles={styles.fill_btn}>
-          <Image
-            src={Images.whitePlus}
-            alt="img"
-            className="w-[18px] h-[18px]"
-          />
-          Add bike
-        </Button>
+  
       </div>
     </div>
   );

@@ -53,7 +53,17 @@ export default function FilterDrawer({ setOpenDrawer, openDrawer,setCars }) {
     {
       filterName: "color",
       label: "color",
-      filters: ["Red", "Blue", "Black", "White", "Silver", "Grey", "Green", "Yellow", "Brown", "Orange"],
+      filters:  [
+        "Red",
+        "Blue",
+        "Black",
+        "White",
+        "Silver",
+        "Gray",
+        "Green",
+        "Yellow",
+        "Orange"
+      ],
     },
     {
       filterName: "transmission",

@@ -1,13 +1,13 @@
 .overviewHeadings{
-    @apply font-semibold text-[#A59E9E]  text-[14px]  sm:text-[18px] my-2
+    @apply font-semibold text-[#A59E9E]  text-[14px] xl:text-base  3xl:text-[18px] my-2
 }
 
 .overviewValues{
-    @apply font-semibold  text-para text-[14px] sm:text-[18px]
+    @apply font-semibold  text-para text-[14px] xl:text-base 3xl:text-[18px]
 }
 
 .sectionBorder{
-    @apply sm:border sm:border-border_light sm:p-6 sm:rounded-2xl
+    @apply border border-border_light p-6 rounded-2xl
 }
 
 
@@ -24,7 +24,7 @@
   }
   
   .mainContainer {
-    @apply mx-auto text-5xl flex flex-col 3xl:px-[125px] 2xl:px-[110px] xl:px-[90px] lg:px-[75px] md:px-[60px] sm:px-[30px] md:mt-10 mt-2;
+    @apply mx-auto flex flex-col 3xl:px-[125px] 2xl:px-[120px] xl:px-[100px] lg:px-[75px] md:px-[60px] sm:px-[30px] md:mt-10 mt-2;
   }
   
   .carDetailsContainer {
@@ -32,11 +32,11 @@
   }
   
   .imagesContainer {
-    @apply  h-full flex flex-col items-center col-span-7;
+    @apply  h-full flex flex-col items-center;
   }
   
   .mainImage {
-    @apply w-full sm:rounded-lg h-[250px] sm:h-[300px] xl:h-[350px] 2xl:h-[400px]  4xl:h-[500px];
+    @apply w-full sm:rounded-lg h-[250px] sm:h-[300px] xl:h-[350px] 2xl:h-[420px]  4xl:h-[500px];
   }
   
   .thumbnailContainer {
@@ -44,7 +44,7 @@
   }
   
   .thumbnailImage {
-    @apply w-12 h-11 md:w-20 md:h-16 m-1 rounded-lg cursor-pointer;
+    @apply w-12 h-11  xl:w-24 xl:h-20 3xl:w-28 3xl:h-24 m-1 rounded-lg cursor-pointer;
   }
   
   .selectedThumbnail {
@@ -55,16 +55,12 @@
     @apply   h-full px-4 sm:px-0 mt-4 sm:mt-0 col-span-5 flex flex-col   4xl:gap-12;
   }
   
-  .sectionBorder {
-    @apply sm:border sm:px-6;
-  }
-  
   .carTitle {
-    @apply text-black font-rajdhani font-bold text-2xl md:text-3xl leading-7;
+    @apply text-black font-rajdhani font-bold text-2xl 3xl:text-3xl leading-7;
   }
   
   .carInfo {
-    @apply flex flex-wrap space-x-4 text-[#737373] text-sm md:text-base my-3 sm:my-4 font-rajdhani font-semibold;
+    @apply flex flex-wrap space-x-8 text-[#737373] text-sm md:text-base xl:text-lg 3xl:text-xl my-3 sm:my-4 font-rajdhani font-semibold;
   }
   
   .separator {
@@ -72,7 +68,7 @@
   }
   
   .carPrice {
-    @apply text-[#ff751a] md:my-6 my-2 font-bold text-lg md:text-2xl;
+    @apply text-[#ff751a] 3xl:my-4 xl:mt-4 my-2 font-bold text-lg xl:text-xl 3xl:text-2xl;
   }
   
   .actionButtons {
@@ -83,27 +79,16 @@
     @apply flex-grow w-full  flex items-center justify-center text-secondary hover:text-white border border-secondary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm md:text-base px-2 md:px-5 py-2;
   }
   
-  .deleteButton {
-    @apply flex-grow w-full  flex items-center justify-center text-soldRed hover:text-white border border-soldRed hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm md:text-base px-2 md:px-5 py-2;
-  }
-  
-  .soldButton {
-    @apply flex-grow w-full  flex md:hidden bg-soldRed border-soldRed items-center justify-center text-white hover:text-white border hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm md:text-base px-3 md:px-5 py-2.5 ;
-  }
-  
-  .soldButton2 {
-    @apply flex-grow w-full hidden md:flex bg-soldRed border-soldRed items-center justify-center text-white hover:text-white border hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm md:text-base px-3 md:px-5 py-2 h-10;
-  }
   .descriptionContainer {
     @apply mt-5 p-4 md:p-6  md:flex-col md:items-start;
   }
   
   .descriptionTitle {
-    @apply text-black font-bold text-2xl md:text-3xl mb-2 font-rajdhani;
+    @apply text-black font-bold text-2xl 3xl:text-3xl mb-2 font-rajdhani;
   }
   
   .descriptionText {
-    @apply text-[#737373] text-sm md:text-base font-rajdhani;
+    @apply text-[#737373] text-sm 3xl:text-lg font-rajdhani font-medium;
   }
   
   .overviewContainer {
@@ -111,15 +96,15 @@
   }
   
   .overviewPanel {
-    @apply grid md:w-full px-6 h-full col-span-7;
+    @apply flex flex-col  md:w-full px-6 h-full col-span-7;
   }
 
   .scratchDentPanel {
-    @apply md:w-full  m-4 sm:m-0 sm:p-4 p-4 items-start border border-[#C4C4C4] rounded-lg;
+    @apply md:w-full sm:p-4 p-4 items-start border border-border_light rounded-lg;
   }
   
   .overviewTitle {
-    @apply text-2xl font-bold mb-4;
+    @apply text-2xl  md:text-3xl  font-bold mb-4 font-rajdhani;
   }
   
   .overviewDetails {
@@ -145,21 +130,21 @@
   
   
   .scratchDentTitle {
-    @apply text-black mt-3 sm:mt-5 font-bold text-2xl md:text-xl;
+    @apply text-black  font-rajdhani 3xl:mt-5 font-bold text-2xl 3xl:text-3xl;
   }
   
   .scratchDentContent {
-    @apply mt-5;
+    @apply xl:mt-2 3xl:mt-5 w-[85%];
   }
   
 
   
   .scratchDentText {
-    @apply text-para md:text-[20px] text-[18px];
+    @apply text-para md:text-[20px] text-[18px] font-rajdhani;
   }
   
   .scratchDentImage {
-    @apply rounded-2xl my-2 sm:my-4 sm:max-h-[260px] max-h-[150px];
+    @apply rounded-2xl text-lg my-2 sm:my-4 w-full md:w-[80%] sm:max-h-[260px] max-h-[150px];
   }
   
   .hide-scroll-bar {
@@ -225,4 +210,62 @@
   
   .custom-carousel .carousel .control-next.control-arrow:before {
     border-left: 8px solid #fff;
+  }
+
+
+
+
+
+
+
+
+
+  .dealerCard {
+    @apply  p-3 border border-border_light md:p-6 rounded-2xl font-rajdhani;
+  }
+
+  .cardTitle {
+    @apply text-2xl 3xl:text-4xl font-bold mb-4 ;
+  }
+
+  .dealerInfo {
+    @apply flex items-center justify-between mb-4;
+  }
+
+  .dealerImage {
+    @apply w-12 h-12 rounded-full mr-3;
+  }
+
+  .dealerName {
+    @apply font-bold mr-2 text-base md:text-lg 3xl:text-2xl;
+  }
+
+  .rating {
+    @apply text-primary h-full flex md:gap-2 gap-1;
+  }
+
+  .starEmpty {
+    @apply text-gray-300 text-2xl;
+  }
+
+  .starFilled {
+    @apply text-primary text-2xl;
+  }
+
+  .dealerLocation, .dealerContact, .dealerEmail, .updatedCars {
+    @apply mb-2 text-sm xl:text-lg 3xl:text-2xl flex   gap-4 font-medium;
+  }
+
+  .updatedCars {
+    @apply text-primary font-semibold;
+  }
+
+  .callButton {
+    @apply bg-orange-500 text-white border-none px-4 py-1 md:py-2 w-full text-lg font-bold cursor-pointer mt-3 hover:bg-orange-600 transition-colors rounded-full ;
+  }
+  .callBtnAnchor {
+    @apply flex-row flex justify-center items-center gap-2
+  }
+  .dealerInfoIcon {
+    @apply w-4 h-4 md:w-5 md:h-5 2xl:w-6 2xl:h-6
   }

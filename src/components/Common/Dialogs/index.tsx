@@ -6,47 +6,13 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import styles from './styles.module.css';
 import Image from "next/image";
 
-const DynamicDialog = ({ open, type, onClose, onConfirm, onDeleteCar }) => {
+const DynamicDialog = ({ open, type, onClose, onConfirm }) => {
   const DialogTypes = {
-    DELETE_CAR: "DELETE_CAR",
-    PLAN_EXPIRED: "PLAN_EXPIRED",
     FEATURE_COMING_SOON: "FEATURE_COMING_SOON",
   };
 
   const renderDialogContent = () => {
     switch (type) {
-      case DialogTypes.DELETE_CAR:
-        return {
-          title: "Are you sure you want to Delete this car?",
-          message: "",
-          buttons: [
-            {
-              label: "No",
-              onClick: onClose,
-              className: styles.buttonNo,
-            },
-            {
-              label: "Yes",
-              onClick: onDeleteCar,
-              className: styles.buttonYes,
-            },
-          ],
-        };
-      case DialogTypes.PLAN_EXPIRED:
-        return {
-          title: "Your Plan Has Expired.",
-          image: Images.planExpiredDialogImg,
-          message:
-            "Now your customers are unable to view your post. Renew your plan to continue showing your post.",
-          subTitle: "Renew your plan right away!!!",
-          buttons: [
-            {
-              label: "Renew Your Plan",
-              onClick: () => console.log("Plan renewed"),
-              className: styles.buttonRenew,
-            },
-          ],
-        };
       case DialogTypes.FEATURE_COMING_SOON:
         return {
           title: "Coming Soon",

@@ -9,6 +9,7 @@ import Link from "next/link";
 import instance from "@/network/axios";
 import { toast } from "react-toastify";
 import DynamicDialog from "@/components/Common/Dialogs";
+import { FaRegArrowAltCircleRight } from "react-icons/fa";
 export default function CarCards({ car, onDelete }) {
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -67,7 +68,7 @@ const handleDialogClose = () => {
           className={styles.header_left}
         >{`${car.company} ${car.modelName} ${car.variant}`}</div>
         <div className={styles.header_right}>
-          <Link href={`/car_details/${car._id}`} passHref>
+          {/* <Link href={`/car_details/${car._id}`} passHref>
             <Image src={Images.cardView} alt="view" width={24} height={24} className={styles.cardActions} />
           </Link>
           <Link href={`/edit-car/${car._id}`} passHref>
@@ -82,12 +83,12 @@ const handleDialogClose = () => {
             height={24}
             onClick={ handleDialogOpen}
             style={{ cursor: "pointer" }}
-          />
+          /> */}
         </div>
       </div>
       <DynamicDialog open={dialogOpen}  type={dialogType} onClose={handleDialogClose} onConfirm={handleDialogClose} onDeleteCar={()=> handleDelete(car._id)} />
       <div className={styles.card_price_row}>
-        <div className={styles.price_left}>₹{car.price}</div>
+        <div className={styles.price_left}>₹{car?.price?.toLocaleString('en-IN')}</div>
         <div className={styles.price_right}>
           {moment(car?.registrationDate).format("DD/MM/YYYY")}
         </div>
@@ -105,6 +106,14 @@ const handleDialogClose = () => {
           );
         })}
       </div>
+
+
+      <Link href={`/car_details/${car._id}`} passHref>
+      <div className="flex flex-row text-lg px-4 pb-4 items-center gap-x-2">
+        <p className="text-secondary font-bold">View Dealer Details</p>
+        <FaRegArrowAltCircleRight className="fill-secondary" />
+      </div>
+      </Link>
     </div>
   );
 }

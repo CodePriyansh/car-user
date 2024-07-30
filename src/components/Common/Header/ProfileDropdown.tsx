@@ -21,7 +21,9 @@ const router = useRouter()
 
   const handleLogout = () => {
     handleClose();
-    cookies.remove('token', { path: '/' })
+    cookies.remove("user")
+    cookies.remove("id")
+    cookies.remove("token")
     router.push("/login");  // Navigate to the login page
   };
 
@@ -31,21 +33,23 @@ const router = useRouter()
   }
   return (
     <>
-      <div onClick={handleClick} className="cursor-pointer">
+      <div onClick={handleClick} className="cursor-pointer h-full w-12">
         <Image
         
-          width={50}
-          height={50}
-          className="hidden sm:flex"
+          width={1000}
+          height={100}
+          className="hidden sm:flex h-12 rounded-full"
           src={user?.profileImage || Images.demoProfile}
           alt="profile"
         />
         <Image
-          className="sm:hidden"
-          src={Images.userProfile}
+          className="sm:hidden h-8 w-full rounded-full"
+          src={user?.profileImage || Images.userProfile}
           alt="Profile"
-          width={20}
-          height={20}
+          width={1000}
+          height={1000}
+
+
         />
       </div>
       <Menu
