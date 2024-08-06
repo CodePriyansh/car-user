@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react";
 import Drawer from "@mui/material/Drawer";
 import Button from "@/components/Common/Button";
@@ -7,12 +8,14 @@ import Image from "next/image";
 import { Images } from "@/assets/Images";
 import Cookies from "universal-cookie";
 import CarApi from "../CarApi/index";
+import { useFilter } from "@/context/FilterContext";
+import { bikeDrawerFilters, carDrawerFilters } from "@/constants/formFields";
 
-export default function FilterDrawer({ setOpenDrawer, openDrawer,setCars }) {
+export default function FilterDrawer({ setOpenDrawer, openDrawer,setCars, setCarNotFoundtext }) {
   const cookies = new Cookies();
   const [isOpen, setIsOpen] = React.useState(true);
   const [updatedPriceRange, setUpdatedPriceRange] = React.useState([0, 2500000]);
-
+  const { activeFilter } = useFilter();
   const toggleDrawer = (open) => (event) => {
 
     setIsOpen(open);
@@ -28,55 +31,7 @@ export default function FilterDrawer({ setOpenDrawer, openDrawer,setCars }) {
     priceRange: [0, 2500000],
   };
 
-  const contentData = [
-    {
-      filterName: "company",
-      label: "company",
-      filters: [
-        "Ford",
-        "Honda",
-        "Hyundai",
-        "Kia",
-        "Mahindra",
-        "Skoda",
-        "Suzuki",
-        "Tata Motors",
-        "Toyota",
-        "Volkswagen"
-    ],
-    },
-    {
-      filterName: "modelYear",
-      label: "Model Year",
-      filters: ["2022 - 2024", "2019 - 2021", "2016 - 2018", "2013 - 2015", "Before - 2013"],
-    },
-    {
-      filterName: "color",
-      label: "color",
-      filters:  [
-        "Red",
-        "Blue",
-        "Black",
-        "White",
-        "Silver",
-        "Gray",
-        "Green",
-        "Yellow",
-        "Orange"
-      ],
-    },
-    {
-      filterName: "transmission",
-      label: "transmission",
-      filters: ["Manual", "Automatic"],
-    },
-    {
-      filterName: "carType",
-      label: "Car Type",
-      filters: ["Compact SUV", "Coupe", "Crossover SUV", "Hatchback", "Pickup", "Sedan", "SUV", "Van"]
-      ,
-    },
-  ];
+  const contentData = activeFilter== "car" ? carDrawerFilters : bikeDrawerFilters
 
   const [selectedFilters, setSelectedFilters] = React.useState(initialFiltersState);
 
@@ -93,7 +48,9 @@ export default function FilterDrawer({ setOpenDrawer, openDrawer,setCars }) {
     setSelectedFilters(initialFiltersState);
     setUpdatedPriceRange([0, 2500000]);
   };
-
+  React.useEffect(() => {
+    handleClearFilters
+  }, [activeFilter]);
    React.useEffect(() => {
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
@@ -160,7 +117,7 @@ export default function FilterDrawer({ setOpenDrawer, openDrawer,setCars }) {
                   setIsOpen(false)
                   setOpenDrawer(false)
                 }}>
-            <CarApi selectedOptions={selectedFilters} initial={false} setCars={setCars} />
+            <CarApi setCarNotFoundtext={setCarNotFoundtext} selectedOptions={selectedFilters} initial={false} setCars={setCars} />
               </Button>
             </div>
           </div>

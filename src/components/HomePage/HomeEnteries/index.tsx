@@ -3,26 +3,26 @@ import React, { useEffect, useState } from "react";
 import Filters from "../Filters";
 import HomePageCards from "../HomePageCards";
 import { useRouter } from "next/navigation";
+import { useFilter } from "@/context/FilterContext";
 
 const HomeEnteries = () => {
-  const showPlanExpiredBanner = false;
   const [cars, setCars] = useState([]);
-  const [carNotFoundtext, setCarNotFoundtext] = useState(
-    "There Is No Car Added"
-  );
-  const router = useRouter();
-  useEffect(() => {
-    // console.log(cars,"pppppppppppppppppppppppppppppp")
-  }, [cars]);
+  const { activeFilter } = useFilter();
+  console.log(activeFilter,"woiefwoiewgioegiorrrrrrrrrrrrrrrrrrrrrrrr")
 
-  const handleDeleteCar = (carId) => {
-    setCars((prevCars) => prevCars.filter((car) => car._id !== carId));
-  };
+  const [carNotFoundtext, setCarNotFoundtext] = useState(``);
+  const router = useRouter();
+
+  useEffect(() => {
+    setCarNotFoundtext(`There Is No ${activeFilter.toUpperCase()} Added`);
+  }, [activeFilter]);
+
+
 
   return (
     <div>
       <Filters setCars={setCars} setCarNotFoundtext={setCarNotFoundtext} />
-      <HomePageCards cars={cars} carNotFoundtext={carNotFoundtext} onDelete={handleDeleteCar}  />
+      <HomePageCards cars={cars} carNotFoundtext={carNotFoundtext} />
     </div>
   );
 };

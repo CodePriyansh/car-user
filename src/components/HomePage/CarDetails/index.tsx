@@ -15,6 +15,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Link from "next/link";
 import DynamicDialog from "@/components/Common/Dialogs";
+import { useFilter } from "@/context/FilterContext";
 const CarDetails = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const [car, setCar] = useState(null);
@@ -22,25 +23,26 @@ const CarDetails = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [similarCars, setSimilarCars] = useState([]);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogType, setDialogType] = useState("");
+  const { activeFilter } = useFilter();
+
   const handleImageClick = (index) => {
     setCurrentImageIndex(index);
     // Update image name based on index (you'll need to define these names)
-    const imageNames = Object.keys(car.images);
-    setImageName(imageNames[index] || `View ${index + 1}`);
+    if (activeFilter == "car") {
+      const imageNames = Object.keys(car.images);
+      setImageName(imageNames[index] || `View ${index + 1}`);
+    }
   };
 
   const fetchSimilarCars = async (dealerId) => {
     try {
       const response = await instance.get(
-        `/api/cars/user/car-by-dealer-id/${dealerId._id}`
+        `/api/${activeFilter}s/user/${activeFilter}-by-dealer-id/${dealerId._id}`
       );
       setSimilarCars(response.data.data);
     } catch (error) {
-      console.error("Error fetching similar cars:", error);
-      toast.error("Failed to fetch similar cars");
+      console.error("Error fetching similar " + activeFilter + "s:", error);
+      // toast.error("Failed to fetch similar cars");
     }
   };
 
@@ -48,16 +50,17 @@ const CarDetails = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const fetchCarDetails = async () => {
       try {
-        const response = await instance.get(`/api/cars/car-by-id/${id}`);
-        console.log(response.data.data);
-        console.log(response.data.data);
-        console.log(Object.values(response.data.data));
+        const response = await instance.get(
+          `/api/${activeFilter}s/user/${activeFilter}-by-id/${id}`
+        );
+
         setCar(response.data.data);
-        console.log(Object.values(response?.data?.data?.images).length, "woff");
-        fetchSimilarCars(response.data.data.dealerId);
+        if (response.data.data.dealerId) {
+          fetchSimilarCars(response.data.data.dealerId);
+        }
       } catch (error) {
-        console.error("Error fetching car details:", error);
-        toast.error("Failed to fetch car details");
+        console.error(`Error fetching ${activeFilter} details`, error);
+        toast.error(`Failed to fetch ${activeFilter} details`);
       }
     };
 
@@ -74,28 +77,10 @@ const CarDetails = ({ params }: { params: { id: string } }) => {
     );
   }
 
-  const handleDelete = async () => {
-    try {
-      console.log(car._id, "idfghjkly");
-      const response = await instance.delete(`/api/cars/delete/${car._id}`);
-      if (response.status === 200) {
-        toast.success("Car deleted successfully!");
-        router.push("/");
-      }
-    } catch (error) {
-      toast.error("Failed to delete car. Please try again.");
-      console.error("Delete car error:", error);
-    }
-  };
 
-  const handleDialogOpen = () => {
-    setDialogType("DELETE_CAR");
-    setDialogOpen(true);
-  };
+  const images =
+  activeFilter === "car" ? Object.values(car.images) : car.bikeImages;
 
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
 
   return (
     <>
@@ -111,13 +96,7 @@ const CarDetails = ({ params }: { params: { id: string } }) => {
         <p className={styles.backText}>HOME</p>
       </div>
       <div className={styles.mainContainer}>
-        <DynamicDialog
-          open={dialogOpen}
-          type={dialogType}
-          onClose={handleDialogClose}
-          onConfirm={handleDialogClose}
-          onDeleteCar={handleDelete}
-        />
+
 
         <div className="grid grid-cols-1 gap-x-8 sm:grid-cols-12">
           <div className="md:col-span-7">
@@ -127,8 +106,10 @@ const CarDetails = ({ params }: { params: { id: string } }) => {
                 selectedItem={currentImageIndex}
                 onChange={(index) => {
                   setCurrentImageIndex(index);
-                  const imageNames = Object.keys(car.images);
-                  setImageName(imageNames[index] || `View ${index + 1}`);
+                  if (activeFilter === "car") {
+                    const imageNames = Object.keys(car?.images);
+                    setImageName(imageNames[index] || `View ${index + 1}`);
+                  }
                 }}
                 showArrows={true}
                 showStatus={false}
@@ -136,24 +117,26 @@ const CarDetails = ({ params }: { params: { id: string } }) => {
                 showThumbs={false}
                 className="custom-carousel"
               >
-                {Object.values(car.images).map((image, index) => (
+                {images?.map((image, index) => (
                   <div key={index} className="relative w-full  ">
                     <img
                       src={image}
                       alt={`Car part ${index + 1}`}
                       className={styles.mainImage}
                     />
-                    <div className="font-rajdhani font-bold absolute text-[14px] md:text-lg h-6 md:h-8 md:bottom-4 md:left-4 bottom-3 left-3 bg-[#FFFFFF] bg-opacity-50 text-para px-2 py-1 rounded capitalize ">
-                      {imageName.replaceAll("_", " ")}
+                    {activeFilter == "car" && (
+                    <div className="font-rajdhani font-bold absolute text-[14px] h-5 md:bottom-4 md:left-4 bottom-3 left-3 bg-[#FFFFFF] bg-opacity-50 text-para px-2 py-1 rounded capitalize ">
+                      {imageName?.replaceAll("_", " ")}
                     </div>
+                  )}
                     <div className="font-rajdhani font-bold absolute text-[14px] md:text-lg h-6 md:h-8 md:bottom-4 md:right-4 bottom-3 right-3 bg-[#FFFFFF] bg-opacity-50 text-para px-2 py-1 rounded">
-                      {index + 1}/{Object.values(car?.images).length}
+                      {index + 1}/{images?.length}
                     </div>
                   </div>
                 ))}
               </Carousel>
               <div className={styles.thumbnailContainer}>
-                {Object.values(car.images).map((image, index) => (
+                {images?.map((image, index) => (
                   <img
                     key={index}
                     src={image}
@@ -171,14 +154,14 @@ const CarDetails = ({ params }: { params: { id: string } }) => {
                 <span
                   className={`h-2 w-2 rounded-full mx-1 ${
                     currentImageIndex === 0 ||
-                    currentImageIndex < Object.values(car?.images).length - 1
+                    currentImageIndex < images?.length - 1
                       ? "bg-orange-500"
                       : "bg-gray-300"
                   }`}
                 ></span>
                 <span
                   className={`h-2 w-2 rounded-full mx-1 ${
-                    currentImageIndex === Object.values(car?.images).length - 1
+                    currentImageIndex === images?.length - 1
                       ? "bg-orange-500"
                       : "bg-gray-300"
                   }`}
@@ -388,10 +371,16 @@ const CarDetails = ({ params }: { params: { id: string } }) => {
                     <p className={styles.overviewHeadings}>Color</p>
                     <p className={styles.overviewValues}>{car.color}</p>
                   </div>
-                  <div className={styles.overviewField}>
-                    <p className={styles.overviewHeadings}>Transmission</p>
-                    <p className={styles.overviewValues}>{car.transmission}</p>
-                  </div>
+                  {activeFilter == "car" && (
+                  <>
+                    <div className={styles.overviewField}>
+                      <p className={styles.overviewHeadings}>Transmission</p>
+                      <p className={styles.overviewValues}>
+                        {car?.transmission}
+                      </p>
+                    </div>
+                  </>
+                )}
                   <div className={styles.overviewField}>
                     <p className={styles.overviewHeadings}>Fuel Type</p>
                     <p className={styles.overviewValues}>{car.fuelType}</p>
@@ -410,18 +399,22 @@ const CarDetails = ({ params }: { params: { id: string } }) => {
                     <p className={styles.overviewHeadings}>Km Driven</p>
                     <p className={styles.overviewValues}>{car.kmDriven}</p>
                   </div>
-                  <div className={styles.overviewField}>
-                    <p className={styles.overviewHeadings}>Air Conditioner</p>
-                    <p className={styles.overviewValues}>
-                      {car.airConditioner ? "Yes" : "No"}
-                    </p>
-                  </div>
-                  <div className={styles.overviewField}>
-                    <p className={styles.overviewHeadings}>Power Window</p>
-                    <p className={styles.overviewValues}>
-                      {car.powerWindow ? "Yes" : "No"}
-                    </p>
-                  </div>
+                  {activeFilter == "car" && (
+                  <>
+                    <div className={styles.overviewField}>
+                      <p className={styles.overviewHeadings}>Air Conditioner</p>
+                      <p className={styles.overviewValues}>
+                        {car?.airConditioner ? "Yes" : "No"}
+                      </p>
+                    </div>
+                    <div className={styles.overviewField}>
+                      <p className={styles.overviewHeadings}>Power Window</p>
+                      <p className={styles.overviewValues}>
+                        {car?.powerWindow ? "Yes" : "No"}
+                      </p>
+                    </div>
+                  </>
+                )}
                   <div className={styles.overviewField}>
                     <p className={styles.overviewHeadings}>Owner</p>
                     <p className={styles.overviewValues}>{car.ownerType}</p>
@@ -485,7 +478,7 @@ const CarDetails = ({ params }: { params: { id: string } }) => {
               <div className={styles.similarCarsList}>
                 {similarCars.map((car, index) => (
                   <div key={index} className={styles.similarCarCard}>
-                    <CarCards car={car} />
+                    <CarCards item={car} />
                   </div>
                 ))}
               </div>
